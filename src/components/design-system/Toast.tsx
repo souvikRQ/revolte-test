@@ -1,0 +1,24 @@
+import { useEffect } from 'react'
+import './toast.css'
+
+interface ToastProps {
+  message: string
+  type: 'error' | 'success'
+  onClose: () => void
+}
+
+export function Toast({ message, type, onClose }: ToastProps) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 3000)
+    return () => clearTimeout(timer)
+  }, [onClose])
+
+  return (
+    <div className={`toast toast--${type}`}>
+      <span className="toast-message">{message}</span>
+      <button className="toast-close" onClick={onClose} aria-label="Close">
+        ×
+      </button>
+    </div>
+  )
+}

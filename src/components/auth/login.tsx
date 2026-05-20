@@ -1,10 +1,15 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputField } from '../design-system'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { InputField, Toast } from '../design-system'
 import { loginSchema, type LoginFormData } from './schemas'
 import './login.css'
 
 export default function Login() {
+  const navigate = useNavigate()
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [toastType, setToastType] = useState<'error' | 'success'>('error')
   const {
     register,
     handleSubmit,
@@ -15,12 +20,26 @@ export default function Login() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      console.log('Login attempt:', data)
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log('Login successful')
+      // Validate credentials
+      if (data.email === 'admin@mail.com' && data.password === 'Admin@123') {
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        // Show success toast
+        setToastMessage('Login successfully!')
+        setToastType('success')
+        // Navigate to dashboard after showing toast
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 1500)
+      } else {
+        // Show error toast
+        setToastMessage('Username/password is incorrect')
+        setToastType('error')
+      }
     } catch (error) {
       console.error('Login failed:', error)
+      setToastMessage('An error occurred during login')
+      setToastType('error')
     }
   }
 
@@ -56,6 +75,13 @@ export default function Login() {
           </button>
         </form>
       </div>
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          type={toastType}
+          onClose={() => setToastMessage(null)}
+        />
+      )}
     </div>
   )
 }
