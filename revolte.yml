@@ -1,7 +1,7 @@
 revolte:
   version: '1.0'
   project: Revolte Beta Test
-  appName: Javascript Test
+  appName: React CLI
   config:
     codeReview:
       summarize: true
