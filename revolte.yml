@@ -1,7 +1,7 @@
 revolte:
   version: '1.0'
-  project: Revolte Beta Test
-  appName: be-test
+  project: Revolte Project
+  appName: Revolte-CLI
   config:
     codeReview:
       summarize: true
@@ -9,14 +9,17 @@ revolte:
       commentStyle: Balanced
     testSuite:
       command: npm run test
+    automationTestSuite:
+      command: npm run test:automation
   workflow:
     developerWorkflow:
       enabled: true
   env:
     staging:
-      branch: staging
+      branch: main
       codeReview: true
       testSuite: true
+      automationTestSuite: true
       services:
         rid_1:
           type: WEB_APP
@@ -29,9 +32,10 @@ revolte:
             variables:
               BASE_URL: /api/v1
     qa:
-      branch: qa
+      branch: main
       codeReview: true
       testSuite: true
+      automationTestSuite: true
       services:
         rid_1:
           type: WEB_APP
@@ -47,6 +51,7 @@ revolte:
       branch: main
       codeReview: true
       testSuite: true
+      automationTestSuite: true
       services:
         rid_1:
           type: WEB_APP
@@ -61,6 +66,7 @@ revolte:
     preview:
       codeReview: true
       testSuite: true
+      automationTestSuite: true
       services:
         rid_1:
           type: WEB_APP
