@@ -16,7 +16,7 @@ revolte:
       enabled: true
   env:
     staging:
-      branch: main
+      branch: qa
       codeReview: true
       testSuite: true
       automationTestSuite: true
@@ -32,7 +32,7 @@ revolte:
             variables:
               BASE_URL: /api/v1
     qa:
-      branch: main
+      branch: staging
       codeReview: true
       testSuite: true
       automationTestSuite: true
