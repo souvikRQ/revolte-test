@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -45,6 +46,7 @@ interface Activity {
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const { logout } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false)
 
@@ -171,6 +173,7 @@ export default function Dashboard() {
   ]
 
   const handleLogout = () => {
+    logout()
     navigate('/auth/login')
   }
 
@@ -196,9 +199,16 @@ export default function Dashboard() {
             <span className="nav-icon">👥</span>
             {sidebarOpen && <span>Users</span>}
           </a>
-          <a href="#" className="nav-item">
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate('/orders')
+            }}
+          >
             <span className="nav-icon">📦</span>
-            {sidebarOpen && <span>Orders</span>}
+            {sidebarOpen && <span>My Orders</span>}
           </a>
           <a href="#" className="nav-item">
             <span className="nav-icon">⚙️</span>
