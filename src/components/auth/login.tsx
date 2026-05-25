@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { InputField, Toast } from '../design-system'
 import { loginSchema, type LoginFormData } from './schemas'
+import { useAuth } from '../../contexts/AuthContext'
 import './login.css'
 
 export default function Login() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [toastType, setToastType] = useState<'error' | 'success'>('error')
   const {
@@ -20,19 +22,15 @@ export default function Login() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      // Validate credentials
-      if (data.email === 'admin@mail.com' && data.password === 'Admin@123') {
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        // Show success toast
+      const success = await login(data.email, data.password)
+      
+      if (success) {
         setToastMessage('Login successfully!')
         setToastType('success')
-        // Navigate to dashboard after showing toast
         setTimeout(() => {
           navigate('/dashboard')
         }, 1500)
       } else {
-        // Show error toast
         setToastMessage('Username/password is incorrect')
         setToastType('error')
       }

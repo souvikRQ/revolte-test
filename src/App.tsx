@@ -4,8 +4,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import { AuthProvider } from './contexts/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 import Login from './components/auth/login'
 import Dashboard from './components/dashboard/Dashboard'
+import OrderListing from './components/orders/OrderListing'
 
 function Home() {
   const [count, setCount] = useState(0)
@@ -124,14 +127,31 @@ function Home() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/auth/login" replace />} />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/auth/login" replace />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrderListing />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 
